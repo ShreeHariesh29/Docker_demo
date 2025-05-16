@@ -7,7 +7,7 @@ app = FastAPI()
 def home():
     connector = DB_Connection()
     cursor = connector.cursor()
-    cursor.execute("""Select * from products""")
+    cursor.execute("""Select * from product""")
     data = cursor.fetchall()
     print(data)
     return data

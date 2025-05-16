@@ -1,0 +1,65 @@
+# version: "3.9"
+
+# services:
+#   fastapi:
+#     build: .
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - mysql
+#     networks:
+#       - mynetwork
+
+#   mysql:
+#     image: mysql:8.0
+#     environment:
+#       MYSQL_ROOT_PASSWORD: 1234
+#       MYSQL_DATABASE: newecommerce
+#     volumes:
+#       - mysql_data:/var/lib/mysql
+#       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+#     networks:
+#       - mynetwork
+
+# volumes:
+#   mysql_data:
+
+# networks:
+#   mynetwork:
+version: "3.9"
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Explicitly reference your Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    networks:
+      - mynetwork
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: 1234
+      DB_NAME: newecommerce
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: newecommerce
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - mynetwork
+
+volumes:
+  mysql_data:
+
+networks:
+  mynetwork:
+
